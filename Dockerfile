@@ -14,8 +14,7 @@ FROM debian:buster-slim
 
 LABEL maintainer="CouchDB Developers dev@couchdb.apache.org"
 
-# Add CouchDB user account to make sure the IDs are assigned consistently
-RUN groupadd -g 5984 -r couchdb && useradd -u 5984 -d /opt/couchdb -g couchdb couchdb
+
 
 # be sure GPG and apt-transport-https are available and functional
 RUN set -ex; \
@@ -55,6 +54,9 @@ RUN set -eux; \
     rm -rf /var/lib/apt/lists/*
 
 ENV COUCHDB_VERSION 3.2.1
+
+# Add CouchDB user account to make sure the IDs are assigned consistently
+RUN groupadd -g 5984 -r couchdb && useradd -u 5984 -d /opt/couchdb -g couchdb couchdb
 
 RUN . /etc/os-release; \
     echo "deb [signed-by=/usr/share/keyrings/couchdb-archive-keyring.gpg] https://apache.jfrog.io/artifactory/couchdb-deb/ ${VERSION_CODENAME} main" | \
